@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Shopify Authorization</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #dc3545; /* Red color for error */
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #6c757d;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .error-icon {
+            font-size: 60px;
+            color: #dc3545;
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-icon">&#10008;</div>
+        <h1>Authorization Failed</h1>
+        <p>Sorry, there was an issue authorizing your account. Please double-check your credentials and try again.</p>
+        <p>If the problem persists, contact support <a href="mailto:support@example.com">support@example.com</a>.</p>
+        <button class="go-back-btn" onclick="goBack()">Go Back</button>
+    </div>
+  
+    <script>
+        function goBack() {
+            window.location.href = document.referrer;
+        }
+    </script>
+  </body>
+  </html>
+
+    </div>
+</body>
+</html>

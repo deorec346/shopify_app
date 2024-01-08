@@ -1,1 +1,47 @@
 venv/
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyc
+
+# Virtual Environment
+venv/
+env/
+virtualenv/
+
+# Node.js
+node_modules/
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# IDE/Editor specific files
+.vscode/
+.idea/
+
+# Generated documentation
+docs/
+build/
+
+# Temporary files
+*.tmp
+*.swp
+*.bak

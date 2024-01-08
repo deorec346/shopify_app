@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connections</title>
+    <style>
+      /* dashboard.css */
+
+      body {
+        margin: 0;
+        font-family: "Arial", sans-serif;
+      }
+
+      .sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        padding-top: 20px;
+      }
+
+      .sidebar .header {
+        text-align: center;
+        padding-bottom: 20px;
+      }
+
+      .sidebar .header h2 {
+        color: white; /* Set the header text color to white */
+      }
+
+      .sidebar a {
+        padding: 10px 16px;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: flex;
+        align-items: center; /* Align text and image vertically */
+        transition: background-color 0.3s;
+      }
+
+      .sidebar a img {
+        width: 24px; /* Set the width of the logo */
+        height: 24px; /* Set the height of the logo */
+        margin-right: 10px; /* Add some space between the logo and text */
+      }
+
+      .sidebar a:hover {
+        background-color: #ddd;
+        color: black;
+      }
+
+      .content {
+        margin-left: 250px;
+        padding: 16px;
+      }
+
+      /* Popup styling */
+      .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        z-index: 2;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .popup input {
+        margin-bottom: 10px;
+      }
+
+      .popup button {
+        padding: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="header">
+        <h2>Connections</h2>
+      </div>
+      <div class="buttons">
+        <a href="#" onclick="showPopup('shopifyPopup')">
+          <img src="{% static 'images/shopify_logo.png' %}" alt="Shopify" />
+          Shopify
+        </a>
+        <a href="#" onclick="showPopup('googlePopup')">
+          <img src="{% static 'images/google_logo.png' %}" alt="Google" />
+          Google
+        </a>
+      </div>
+    </div>
+
+    <!-- Popup HTML -->
+    <div class="popup" id="shopifyPopup">
+      <label for="shopName">Enter Shop Name:</label>
+      <input type="text" id="shopName" placeholder="Shop Name" />
+      <label for="accessToken">Enter Access Token:</label>
+      <input type="text" id="accessToken" placeholder="Access Token" />
+      <button onclick="redirectToShopify()">Go</button>
+    </div>
+
+<!-- Google Popup HTML -->
+<div class="popup" id="googlePopup">
+  <label for="clientId">Enter Client ID:</label>
+  <input type="text" id="clientId" placeholder="Client ID" />
+  <label for="clientSecret">Enter Client Secret:</label>
+  <input type="text" id="clientSecret" placeholder="Client Secret" />
+  <label for="projectId">Enter Project ID:</label>
+  <input type="text" id="projectId" placeholder="Project ID" />
+  <button onclick="redirectToGoogle()">Go</button>
+</div>
+    <script>
+      function showPopup() {
+        document.getElementById("shopifyPopup").style.display = "block";
+      }
+
+      function redirectToShopify() {
+        var shopName = document.getElementById("shopName").value;
+        var accessToken = document.getElementById("accessToken").value;
+        if (shopName && accessToken) {
+          // Redirect to the specified URL with the shopName and accessToken parameters
+          window.location.href =
+            "{% url 'connectApp:authorize_shopify' %}?shop=" +
+            shopName +
+            "&access_token=" +
+            accessToken;
+        }
+      }
+  function showPopup(popupId) {
+    var popups = document.querySelectorAll('.popup');
+    popups.forEach(function (popup) {
+      popup.style.display = 'none';
+    });
+
+    document.getElementById(popupId).style.display = 'block';
+  }
+
+  function redirectToGoogle() {
+    var clientId = document.getElementById('clientId').value;
+    var clientSecret = document.getElementById('clientSecret').value;
+    var projectId = document.getElementById('projectId').value;
+
+    if (clientId && clientSecret && projectId) {
+      // Redirect to the specified URL with the clientId, clientSecret, and projectId parameters
+      window.location.href =
+        '{% url "connectApp:authorize_google" %}?client_id=' +
+        clientId +
+        '&client_secret=' +
+        clientSecret +
+        '&project_id=' +
+        projectId;
+    }
+  }
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopify Authorization Success</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #28a745; /* Green color for success */
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #6c757d;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        .go-back-btn {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .go-back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+      <div class="success-icon">&#10004;</div>
+      <h1>Authorization Successful!</h1>
+      <p>Your account has been successfully authorized.</p>
+      <button class="go-back-btn" onclick="goBack()">Go Back</button>
+  </div>
+
+  <script>
+      function goBack() {
+          window.location.href = document.referrer;
+      }
+  </script>
+</body>
+</html>

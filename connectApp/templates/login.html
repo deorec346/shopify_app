@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background: #f2f2f2;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      .login-container {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        width: 400px;
+        max-width: 100%;
+      }
+
+      .login-header {
+        background: #2568c3;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .login-form {
+        padding: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      button {
+        background: #2568c3;
+        color: #fff;
+        padding: 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      button:hover {
+        background: #2568c3;
+      }
+
+      .signup-link {
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .signup-link a {
+        color: #2568c3;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .signup-link a:hover {
+        text-decoration: underline;
+      }
+
+      .error {
+        color: #ff0000;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-header">
+        <h2>Login</h2>
+      </div>
+      <div class="login-form">
+        <form method="post" action="{% url 'connectApp:login' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" name="username" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" name="password" required />
+          </div>
+          <button type="submit">Login</button>
+          <p class="error">{{ error }}</p>
+        </form>
+      </div>
+      <div class="signup-link">
+        <p>
+          If you don't have an account,
+          <a href="{% url 'connectApp:sign_up' %}">signup here</a>.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
