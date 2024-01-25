@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Connections</title>
     <style>
-      /* dashboard.css */
-
       body {
         margin: 0;
         font-family: "Arial", sans-serif;
@@ -30,7 +28,12 @@
       }
 
       .sidebar .header h2 {
-        color: white; /* Set the header text color to white */
+        color: white;
+      }
+
+      .buttons {
+        display: flex;
+        flex-direction: column;
       }
 
       .sidebar a {
@@ -39,14 +42,14 @@
         font-size: 18px;
         color: white;
         display: flex;
-        align-items: center; /* Align text and image vertically */
+        align-items: center;
         transition: background-color 0.3s;
       }
 
       .sidebar a img {
-        width: 24px; /* Set the width of the logo */
-        height: 24px; /* Set the height of the logo */
-        margin-right: 10px; /* Add some space between the logo and text */
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
       }
 
       .sidebar a:hover {
@@ -67,18 +70,99 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background: white;
-        padding: 20px;
+        padding: 40px; /* Increased padding for a larger appearance */
         z-index: 2;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        max-width: 500px; /* Adjust width as needed */
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .popup input {
-        margin-bottom: 10px;
+        margin-bottom: 20px;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px; /* Increased padding for input fields */
       }
 
       .popup button {
-        padding: 10px;
+        padding: 15px; /* Increased padding for the button */
         cursor: pointer;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      /* Sync Button */
+      .btn-oval {
+        display: inline-block;
+        width: 200px;
+        top: 260px;
+        height: 50px;
+        box-sizing: border-box;
+        text-align: center; 
+        line-height: 70px;
+        color: #fff;
+        text-decoration: none;
+        background: linear-gradient(#89c13e, #599c02);
+        background-color: #6fad1d;
+        border-radius: 32px;
+        border: 1px solid #579a00;
+        font: bold 30px/70px Arial;
+        box-shadow: inset 0 2px 2px #cce464, inset 1px 0 3px #b2dc2d,
+          inset -1px 0 3px #b2dc2d, inset 0 -2px 2px #89d301,
+          0 0 3px rgba(0, 0, 0, 0.24);
+        position: relative;
+        text-shadow: 0 1px #45880d;
+        outline: none;
+      }
+      .btn-oval:before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: -10px;
+        width: 99%;
+        height: 87%;
+        padding: 10px;
+        background: #d7d7d7;
+        z-index: -1;
+        border-radius: 50px;
+        box-shadow: inset 0 1px 2px #bbb;
+      }
+      .btn-oval:hover {
+        background: linear-gradient(#97d444, #65ad07);
+        box-shadow: inset 0 1px 0 #e2f498, inset 0 2px 0 #ceec87,
+          inset 0 3px 0 #c3e67c, inset 0 5px 0 #bae475, inset 1px 0 3px #b2dc2d,
+          inset -1px 0 3px #b2dc2d, inset 0 -2px 2px #89d301,
+          0 0 3px rgba(0, 0, 0, 0.24);
+      }
+      .btn-oval:active {
+        background: linear-gradient(#83bb37, #599c02);
+        box-shadow: inset 0 3px 7px #3c7b00;
+        padding: 1px 0 0 1px;
+      }
+
+      /* Center Button */
+      body {
+        display: flex;
+        min-height: 100vh;
+      }
+      .btn-oval {
+        margin: auto;
+      }
+
+      btn-oval + .btn-oval {
+          margin-left: 30px; 
+        }
+
+      
+
+      /* Responsive styling */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 100%;
+        }
+        .content {
+          margin-left: 0;
+        }
       }
     </style>
   </head>
@@ -96,6 +180,28 @@
           <img src="{% static 'images/google_logo.png' %}" alt="Google" />
           Google
         </a>
+        {% if google_synced %}
+        <a href="#" onclick="redirectToSync()" class="btn btn-oval">
+          <img src="{% static 'images/new.jpg' %}" alt="sync_button" />
+          SyncData
+        </a>
+      {% endif %}
+      &nbsp;
+      {% if shopify_synced %}
+      <a href="#" onclick="redirectToPull()" class="btn btn-oval">
+        <img src="{% static 'images/new.jpg' %}" alt="get_button" />
+        getData
+      </a>
+      {% endif %}
+      &nbsp;
+
+      <div class="logout-container" style="position: fixed; top: 10px; right: 10px; z-index: 3;">
+        <a href="#" onclick="logout()" style="color: rgb(0, 0, 0); cursor: pointer; text-decoration: none;">
+          <img src="{% static 'images/logout-icon.png' %}" alt="Logout" style="width: 20px; height: 20px; margin-right: 5px;" />
+          Logout
+        </a>
+      </div>
+  
       </div>
     </div>
 
@@ -108,59 +214,67 @@
       <button onclick="redirectToShopify()">Go</button>
     </div>
 
-<!-- Google Popup HTML -->
-<div class="popup" id="googlePopup">
-  <label for="clientId">Enter Client ID:</label>
-  <input type="text" id="clientId" placeholder="Client ID" />
-  <label for="clientSecret">Enter Client Secret:</label>
-  <input type="text" id="clientSecret" placeholder="Client Secret" />
-  <label for="projectId">Enter Project ID:</label>
-  <input type="text" id="projectId" placeholder="Project ID" />
-  <button onclick="redirectToGoogle()">Go</button>
-</div>
+    <!-- Google Popup HTML -->
+    <div class="popup" id="googlePopup">
+      <label for="clientId">Enter Client ID:</label>
+      <input type="text" id="clientId" placeholder="Client ID" />
+      <label for="clientSecret">Enter Client Secret:</label>
+      <input type="text" id="clientSecret" placeholder="Client Secret" />
+      <label for="projectId">Enter Project ID:</label>
+      <input type="text" id="projectId" placeholder="Project ID" />
+      {% if not is_spreadsheet %}
+      <label for="spreadsheetName">Enter spreadsheet name:</label>
+      <input type="text" id="spreadsheetName" placeholder="Spreadsheet Name" />
+      {% endif %}
+      <button onclick="redirectToGoogle()">Go</button>
+    </div>
+
     <script>
-      function showPopup() {
-        document.getElementById("shopifyPopup").style.display = "block";
+      function showPopup(popupId) {
+        var popups = document.querySelectorAll('.popup');
+        popups.forEach(function (popup) {
+          popup.style.display = 'none';
+        });
+
+        document.getElementById(popupId).style.display = 'block';
       }
 
       function redirectToShopify() {
-        var shopName = document.getElementById("shopName").value;
-        var accessToken = document.getElementById("accessToken").value;
+        var shopName = document.getElementById('shopName').value;
+        var accessToken = document.getElementById('accessToken').value;
+
         if (shopName && accessToken) {
-          // Redirect to the specified URL with the shopName and accessToken parameters
-          window.location.href =
-            "{% url 'connectApp:authorize_shopify' %}?shop=" +
-            shopName +
-            "&access_token=" +
-            accessToken;
+          window.location.href = '{% url "connectApp:authorize_shopify" %}?shop=' + shopName + '&access_token=' + accessToken;
         }
       }
-  function showPopup(popupId) {
-    var popups = document.querySelectorAll('.popup');
-    popups.forEach(function (popup) {
-      popup.style.display = 'none';
-    });
 
-    document.getElementById(popupId).style.display = 'block';
-  }
+      function redirectToSync() {
+          window.location.href = '{% url "connectApp:sync_data" %}';
+        
+      }
+      function redirectToPull() {
+          window.location.href = '{% url "connectApp:get_data" %}';
+        
+      }
+      function logout() {
+        window.location.href = '{% url "connectApp:logout" %}';
+        alert("Logout clicked!"); // Replace this with actual logout code
+      }
 
-  function redirectToGoogle() {
-    var clientId = document.getElementById('clientId').value;
-    var clientSecret = document.getElementById('clientSecret').value;
-    var projectId = document.getElementById('projectId').value;
 
-    if (clientId && clientSecret && projectId) {
-      // Redirect to the specified URL with the clientId, clientSecret, and projectId parameters
-      window.location.href =
-        '{% url "connectApp:authorize_google" %}?client_id=' +
-        clientId +
-        '&client_secret=' +
-        clientSecret +
-        '&project_id=' +
-        projectId;
-    }
-  }
-
+      function redirectToGoogle() {
+        var clientId = document.getElementById('clientId').value;
+        var clientSecret = document.getElementById('clientSecret').value;
+        var projectId = document.getElementById('projectId').value;
+        var spreadsheetName = document.getElementById('spreadsheetName');
+        var url = '{% url "connectApp:authorize_google" %}?client_id=' + clientId + '&client_secret=' + clientSecret + '&project_id=' + projectId
+        if (spreadsheetName){
+          url += '&spreadsheet_name=' + spreadsheetName.value
+        }
+        if (clientId && clientSecret && projectId) {
+          window.location.href = url;
+        }
+      }
     </script>
   </body>
 </html>

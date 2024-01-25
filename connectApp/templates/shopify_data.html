@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Pulled Data</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa; /* Set a light background color */
+        }
+
+        h1 {
+            color: #11de0a; /* Set the color for the h1 header */
+        }
+
+        .table-container {
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            background-color: #11de0a; /* Set the background color for the table header */
+            color: rgb(10, 9, 9);
+        }
+
+        .table-header th {
+            font-weight: bold;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        .table tbody td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        }
+
+        .pagination a {
+            color: #007bff;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            border: 1px solid #007bff;
+            margin: 0 4px;
+            border-radius: 5px;
+        }
+
+        .pagination a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .pagination .current {
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px 16px;
+            border: 1px solid #007bff;
+            margin: 0 4px;
+            border-radius: 5px;
+        }
+        .go-back-btn {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 8px 23px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .go-back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Shopify Data</h1>
+
+    {% if data %}
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead class="table-header">
+                <tr>
+                    <th>Title</th>
+                    <th>Product ID</th>
+                    <th>Product Type</th>
+                    <th>Vendor</th>
+                    <th>Sync Flag</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.product_id }}</td>
+                    <td>{{ item.product_type }}</td>
+                    <td>{{ item.vendor }}</td>
+                    <td>{{ item.sync_flag }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>No data available.</p>
+    {% endif %}
+<!-- Pagination controls -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if data.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ data.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ data.number }} of {{ data.paginator.num_pages }}.
+            </span>
+
+            {% if data.has_next %}
+            <a href="?page={{ data.next_page_number }}">next</a>
+            <a href="?page={{ data.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+            <button class="go-back-btn" onclick="goBack()">Go Back</button>
+
+        </span>
+    </div>
+    <script>
+        function goBack() {
+            window.location.href = '{% url "connectApp:sidebar" %}';
+        }
+    </script>
+
+    <!-- Bootstrap JavaScript (optional, but may be needed for certain Bootstrap features) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+

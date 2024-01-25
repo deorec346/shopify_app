@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-yk#@=ud8yk1zv_xkz176$5r378@ujs76m0w^g61d#mb1-h99eo
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 # Application definition
 
@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'connection_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('MYSQL_DB'),
+        'NAME': 'allconnections',
         'USER': os.environ.get('MYSQL_USER'),
         'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
         'HOST': os.environ.get('MYSQL_HOST'),
@@ -131,3 +131,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # SHOPIFY_CLIENT_ID = 'da64222d6b8e5492cc59f3882411058a'
 # SHOPIFY_CLIENT_SECRET = '602f9e3f742204033ff64cb41b013e3e'
 # SHOPIFY_SCOPES = 'read_products,write_products'
+
